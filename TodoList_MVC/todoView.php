@@ -1,24 +1,22 @@
 <?php
 session_start();
 require("dbconnect.php");
+require("todoModel.php");
 if (isset($_GET['m'])){
 	$msg="<font color='red'>" . $_GET['m'] . "</font>";
 } else {
 	$msg="Good morning";
 }
 
+// 以下可以利用 bossmode 來塞選很多東西
 if (isset($_GET['boss'])){
-	$bossMode = (int)$_GET['boss'];
+    // boss 弄的網頁
+    $bossMode = (int)$_GET['boss'];
 } else {
-	$bossMode=0;
+    $bossMode=0;
 }
 
-if ($bossMode) {
-	$sql = "select *, TIME_TO_SEC(TIMEDIFF(NOW(), addTime)) diff from todo order by status, urgent desc;";
-} else {
-	$sql = "select *, TIME_TO_SEC(TIMEDIFF(NOW(), addTime)) diff from todo where status = 0;";
-}
-$result=mysqli_query($conn,$sql) or die("DB Error: Cannot retrieve message.");
+$result = getJobList($bossMode);
 $jobStatus = array('未完成','已完成','已結案','已取消');
 
 
@@ -82,7 +80,7 @@ while (	$rs=mysqli_fetch_assoc($result)) {
 				echo "<a href='todoEditForm.php?id={$rs['id']}'>Edit</a>  ";
 				echo "<a href='todoSet.php?act=cancel&id={$rs['id']}'>Cancel</a>  " ;
 			} else {
-				echo "<a href='todoSet.php?act=finish&id={$rs['id']}'>Finish</a>  ";
+				echo "<a href='todoSetControl.php?act=finish&id={$rs['id']}'>Finish</a>  ";
 			}
 
 			break;

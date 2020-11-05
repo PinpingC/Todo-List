@@ -15,7 +15,7 @@ require("dbconnect.php");
       task title: <input name="title" type="text" id="title" /> <br>
 
       task description: <input name="msg" type="text" id="msg" /> <br>
-	  
+
 	  Urgent Level: <select  name="urgent" type="select" id="urgent" /> 
 					<option value='一般'>一般</option>
 					<option value='重要'>重要</option>
